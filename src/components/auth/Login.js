@@ -18,7 +18,7 @@ export default () => (
         <div className="mb-3">
           <input type="password" id="password" placeholder="Username" className="appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
         </div>
-        <button className="W-100 bg-green-400 hover:bg-green-500 text-white font-bold rounded py-2 text-xl">LOGIN</button>
+        <button className="w-full bg-green-400 hover:bg-green-500 text-white font-bold rounded py-2 text-xl">LOGIN</button>
       </form>
     </FormLayoutStyled>
     <p className="text-center text-white italic text-xs">No account yet? <Link to="/signup" className="text-yellow-400">Create an account.</Link></p>

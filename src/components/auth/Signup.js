@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import "pickerjs/dist/picker.min.css";
 import Picker from "pickerjs/dist/picker.min.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
+import useAppActions from "../core/useAppActions";
 
 const FormLayoutStyled = styled.div`
   background: rgba(0, 0, 0, 0.25);
@@ -70,13 +71,42 @@ const RadioStyled = styled.label`
 `;
 
 export default () => {
+  const { signUp } = useAppActions();
+  const [userInfo, setUserInfo] = useState({
+    firstName: null,
+    lastName: null,
+    birthDate: null,
+    address: null,
+    occupation: null,
+    username: null,
+    password: null
+  });
+
+  function onBlur(e) {
+    e && e.preventDefault && e.preventDefault();
+    const obj = {};
+    console.log(obj);
+    obj[e.currentTarget.name] = e.currentTarget.value;
+    setUserInfo(state => ({ ...state, ...obj }));
+  }
+
   useEffect(() => {
     const birthDate = document.getElementById("birthDate");
     const picker = new Picker(birthDate, {
       format: "MMMM DD YYYY",
-      headers: true
+      headers: true,
     });
-  }, []);
+
+    picker.pick = e => {
+      const selectedDate = picker.getDate(true);
+      const obj = {};
+      obj['birthDate'] = selectedDate;
+      setUserInfo(state => ({...state, ...obj}));
+      return picker.hide();
+    }
+
+    console.log(userInfo);
+  }, [userInfo]);
 
   return (
     <div className="my-auto flex flex-col px-2 py-3">
@@ -92,22 +122,28 @@ export default () => {
             <input
               type="text"
               id="firstName"
+              name="firstName"
               placeholder="First Name"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
               id="lastName"
+              name="lastName"
               placeholder="Last Name"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
               id="birthDate"
+              name="birthDate"
+              value={userInfo.birthDate}
               placeholder="Birth Date"
               className="w-full appearance-none rounded py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -116,45 +152,57 @@ export default () => {
             <input
               type="text"
               id="address"
+              name="address"
               placeholder="Address"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
               id="occupation"
+              name="occupation"
               placeholder="Occupation"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
               id="username"
+              name="username"
               placeholder="Username"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3">
             <input
               type="password"
               id="password"
+              name="password"
               placeholder="Password"
               className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onBlur={onBlur}
             />
           </div>
           <div className="mb-3 flex flex-row rounded bg-gray-200 overflow-hidden">
             <RadioStyled htmlFor="male" className="flex-1">
               <input type="radio" checked="checked" name="gender" id="" />
               <div className="marker">
-                <span><FontAwesomeIcon icon={faMars}/> MALE</span>
+                <span>
+                  <FontAwesomeIcon icon={faMars} /> MALE
+                </span>
               </div>
             </RadioStyled>
             <RadioStyled htmlFor="female" className="flex-1">
               <input type="radio" name="gender" id="" />
               <div className="marker">
-                <span><FontAwesomeIcon icon={faVenus}/> FEMALE</span>
+                <span>
+                  <FontAwesomeIcon icon={faVenus} /> FEMALE
+                </span>
               </div>
             </RadioStyled>
           </div>
