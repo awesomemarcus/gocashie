@@ -66,10 +66,12 @@ export default ({ children }) => {
 		<MainStyled className="main">
 			<HeaderStyled className="px-2 py-2 bg-blue-600 border-b-1 border-blue-800 flex flex-row items-center">
 				<div className="rounded-full border-4 border-gray-400 bg-gray-200 h-12 w-12 mr-2 flex flex-row items-center">
-					<TypeIMG
-						style={{ width: '30px', height: '30px' }}
-						className="mx-auto"
-					/>
+					<Link to="/login">
+						<TypeIMG
+							style={{ width: '30px', height: '30px' }}
+							className="mx-auto"
+						/>
+					</Link>
 				</div>
 				<p className="uppercase font-bold mr-2">{accountType}</p>
 				<a href="/" onClick={setModalFn}>
