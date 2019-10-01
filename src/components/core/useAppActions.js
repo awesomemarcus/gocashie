@@ -110,8 +110,8 @@ const useAppActions = () => {
         loan_id,
         outstanding_balance
       }
-	});
-    history.push("/");	
+    });
+    history.push("/");
   }
 
   /**
@@ -172,6 +172,7 @@ const useAppActions = () => {
   }
 
   useEffect(() => {
+    window.localStorage.setItem("state", JSON.stringify(state));
     console.log(state);
   }, [state]);
 
@@ -179,15 +180,16 @@ const useAppActions = () => {
     login,
     signUp,
     addContribution,
-	addLoan,
-	addPayment,
+    addLoan,
+    addPayment,
     setAccountType,
     setUpFundMethod,
     usersList: state.users,
     userInfo: state.userInfo,
     method: state.userInfo && state.userInfo.method,
-	loans: state.loans,
-	payments: state.payments,
+    loans: state.loans,
+    payments: state.payments,
+    contributions: state.contributions,
     activeType: state.activeType
   };
 };
