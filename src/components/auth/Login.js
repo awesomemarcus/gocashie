@@ -30,10 +30,6 @@ export default () => {
 		login(credentials);
 	}
 
-	useEffect(() => {
-		console.log(credentials);
-	}, [credentials]);
-
 	return (
 		<AuthLayout>
 			<div className="mb-auto flex flex-col px-2">

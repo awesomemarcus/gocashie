@@ -48,33 +48,28 @@ const useAppActions = () => {
 		}));
 
 		setTimeout(() => {
-			history.push('/setup/account/type');
+			history.push('/setup/account/method');
 		}, 500);
 	}
 
 	function setAccountType(type) {
 		setState(state => ({
 			...state,
-			loggedUser: { ...state.loggedUser, type },
-			userInfo: { ...state.userInfo, type },
+			activeType: type,
 		}));
 
 		setTimeout(() => {
-			history.push('/setup/account/method');
+			history.push('/');
 		}, 500);
 	}
 
-	function setUpFundAndPaymentMethod(method) {
+	function setUpFundMethod(method) {
 		const user = { ...state.userInfo, method };
 		setState(state => ({
 			...state,
 			users: [...state.users, user],
 			userInfo: user,
 		}));
-
-		setTimeout(() => {
-			history.push('/');
-		}, 500);
 	}
 
 	useEffect(() => {
@@ -85,9 +80,11 @@ const useAppActions = () => {
 		login,
 		signUp,
 		setAccountType,
-		setUpFundAndPaymentMethod,
+		setUpFundMethod,
 		usersList: state.users,
 		userInfo: state.userInfo,
+		method: state.userInfo && state.userInfo.method,
+		activeType: state.activeType,
 	};
 };
 

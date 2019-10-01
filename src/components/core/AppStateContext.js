@@ -8,6 +8,19 @@ const AppStateProvider = props => {
 		userInfo: null,
 		loggedUser: null,
 		funds: [],
+		loans: {
+			list: [],
+			total: 0,
+			outstanding_balance: 0,
+		},
+		contributions: {
+			list: [],
+			total: 0,
+		},
+		payments: {
+			list: [],
+			total: 0,
+		},
 	});
 
 	return (

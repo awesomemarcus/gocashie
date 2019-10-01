@@ -111,8 +111,6 @@ export default () => {
 			setUserInfo(state => ({ ...state, ...obj }));
 			return picker.hide();
 		};
-
-		console.log(userInfo);
 	}, [userInfo]);
 
 	return (
@@ -164,7 +162,6 @@ export default () => {
 							id="address"
 							name="address"
 							placeholder="Address"
-							required
 							className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							onBlur={onBlur}
 						/>
@@ -175,7 +172,6 @@ export default () => {
 							id="occupation"
 							name="occupation"
 							placeholder="Occupation"
-							required
 							className="w-full appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							onBlur={onBlur}
 						/>

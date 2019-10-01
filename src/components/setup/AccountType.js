@@ -10,7 +10,7 @@ export default () => {
 	return (
 		<AuthLayout>
 			<div id="accountType">
-				<h2 className="font-bold text-center text-xl mb-8">As?</h2>
+				<h2 className="font-bold text-center text-xl mb-8">Login as?</h2>
 				<div className="flex flex-row align-middle justify-around w-11/12 mx-auto">
 					<a
 						href="/"

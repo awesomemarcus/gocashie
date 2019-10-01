@@ -64,59 +64,61 @@ const RadioStyled = styled.label`
 `;
 
 export default ({ location: { search } }) => {
-	const [accountType, setAccountType] = useState(null);
-	const { userInfo } = useAppActions();
-	const TypeIMG = accountType === 'creditor' ? CreditorIMG : ContributorIMG;
-	const HeaderText =
-		accountType === 'contributor'
-			? 'Setup your Top Up Account:'
-			: 'Setup your Payment Method:';
+	const { method, setUpFundMethod } = useAppActions();
 
-	useEffect(() => {
-		setAccountType(queryString.parse(search).type);
+	const HeaderText = 'Setup your Fund Method:';
 
-		return () => {
-			setAccountType(null);
-		};
-	}, [search]);
+	function onSelectMethod(e) {
+		setUpFundMethod(e.currentTarget.value);
+	}
 
 	return (
 		<AuthLayout>
 			<div id="method" className="flex flex-col">
-				<div className="">
-					<TypeIMG
-						className="mx-auto"
-						style={{ width: '80px', height: '80px' }}
-					/>
-				</div>
 				<h2 className="font-bold text-center my-4">{HeaderText}</h2>
 				<div id="methodType" className="flex flex-col w-11/12 mx-auto">
 					<RadioStyled className="mb-3" htmlFor="">
-						<input type="radio" name="method" value="palawan" />
+						<input
+							type="radio"
+							name="method"
+							value="palawan"
+							onClick={onSelectMethod}
+						/>
 						<div className="marker rounded">
 							<span>Palawan</span>
 						</div>
 					</RadioStyled>
 					<RadioStyled className="mb-3" htmlFor="">
-						<input type="radio" name="method" value="mlhuilier" />
+						<input
+							type="radio"
+							name="method"
+							value="mlhuilier"
+							onClick={onSelectMethod}
+						/>
 						<div className="marker rounded">
 							<span>MLhuillier</span>
 						</div>
 					</RadioStyled>
 					<RadioStyled className="mb-3" htmlFor="">
-						<input type="radio" name="method" value="cebuana" />
+						<input
+							type="radio"
+							name="method"
+							value="cebuana"
+							onClick={onSelectMethod}
+						/>
 						<div className="marker rounded">
 							<span>Cebuana Lhuillier</span>
 						</div>
 					</RadioStyled>
-					<Link
-						to={{
-							pathname: '/',
-							search: `?type=${accountType}`,
-						}}
-						className="mt-5 w-100 bg-teal-400 hover:bg-teal-500 text-white font-bold rounded py-2 text-xl text-center">
-						NEXT
-					</Link>
+					{method && (
+						<Link
+							to={{
+								pathname: '/setup/account/type',
+							}}
+							className="mt-5 w-100 bg-teal-400 hover:bg-teal-500 text-white font-bold rounded py-2 text-xl text-center">
+							NEXT
+						</Link>
+					)}
 				</div>
 			</div>
 		</AuthLayout>
