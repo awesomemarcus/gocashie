@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router';
-import queryString from 'query-string';
+import { Link, useHistory } from 'react-router-dom';
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as ContributorIMG } from '../../assets/images/contributor.svg';
 import { ReactComponent as CreditorIMG } from '../../assets/images/creditor.svg';
@@ -15,7 +13,8 @@ const MainStyled = styled.div`
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 60px);
+	overflow-y: auto;
 `;
 
 const HeaderStyled = styled.div`
@@ -44,12 +43,12 @@ const ModalOverlayStyled = styled.div`
 `;
 
 export default ({ children }) => {
-	const { activeType: accountType, setAccountType } = useAppActions();
+	const { userInfo, activeType: accountType, setAccountType } = useAppActions();
 	const [modalState, setModalState] = useState(false);
-	const { pathname } = useLocation();
 	const TypeIMG = accountType === 'creditor' ? CreditorIMG : ContributorIMG;
 	const TabBar =
 		accountType === 'creditor' ? TabBarCreditor : TabBarContributor;
+	const history = useHistory();
 
 	const setModalFn = e => {
 		e && e.preventDefault && e.preventDefault();
@@ -62,6 +61,12 @@ export default ({ children }) => {
 		setModalFn();
 	}
 
+	useEffect(() => {
+		if (!userInfo) {
+			history.push('/login');
+		}
+	}, [history, userInfo]);
+
 	return (
 		<MainStyled className="main">
 			<HeaderStyled className="px-2 py-2 bg-blue-600 border-b-1 border-blue-800 flex flex-row items-center">
@@ -73,7 +78,10 @@ export default ({ children }) => {
 						/>
 					</Link>
 				</div>
-				<p className="uppercase font-bold mr-2">{accountType}</p>
+				<></>
+				<Link to="/" className="uppercase font-bold mr-2">
+					{accountType}
+				</Link>
 				<a href="/" onClick={setModalFn}>
 					<FontAwesomeIcon icon={faExchangeAlt} className="text-white" />
 				</a>

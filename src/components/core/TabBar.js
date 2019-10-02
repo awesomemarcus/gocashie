@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { faPlusCircle, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAppActions from './useAppActions';
@@ -14,19 +15,32 @@ const TabBarStyled = styled.div`
 `;
 
 export const TabBarContributor = ({ accountType }) => {
+	const {
+		contributions: { list },
+	} = useAppActions();
+	const lastContributionMonth =
+		list.length > 0 ? moment(list[0].date_created).month() : 0;
+	const currentMonth = moment().month();
+	const isBtnDisabled = lastContributionMonth === currentMonth;
+
 	return (
 		<TabBarStyled className="flex flex-row items-center justify-around bg-blue-700">
-			<Link
-				to={{
-					pathname: '/fund',
-					search: `?type=${accountType}&fundType=add`,
-				}}
-				className="text-white font-medium">
-				<FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> ADD FUND
-			</Link>
-			<a href="/" className="text-white font-medium">
+			{isBtnDisabled ? (
+				<p className="font-medium text-gray-500">
+					<FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> ADD FUND
+				</p>
+			) : (
+				<Link
+					to={{
+						pathname: '/fund',
+					}}
+					className="font-medium text-white">
+					<FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> ADD FUND
+				</Link>
+			)}
+			<Link to="/fund/history" className="text-white font-medium">
 				<FontAwesomeIcon icon={faHistory} className="mr-2" /> HISTORY
-			</a>
+			</Link>
 		</TabBarStyled>
 	);
 };
@@ -40,7 +54,6 @@ export const TabBarCreditor = ({ accountType }) => {
 				<Link
 					to={{
 						pathname: '/fund',
-						search: `?type=${accountType}&fundType=payment`,
 					}}
 					className="text-white font-medium">
 					<FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> ADD PAYMENT
@@ -49,15 +62,14 @@ export const TabBarCreditor = ({ accountType }) => {
 				<Link
 					to={{
 						pathname: '/fund',
-						search: `?type=${accountType}&fundType=payment`,
 					}}
 					className="text-white font-medium">
 					<FontAwesomeIcon icon={faPlusCircle} className="mr-2" /> NEW LOAN
 				</Link>
 			)}
-			<a href="/" className="text-white font-medium">
+			<Link to="/fund/history" className="text-white font-medium">
 				<FontAwesomeIcon icon={faHistory} className="mr-2" /> HISTORY
-			</a>
+			</Link>
 		</TabBarStyled>
 	);
 };
